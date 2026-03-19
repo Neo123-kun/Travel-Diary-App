@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDiary, TravelEntry } from '../context/Diarycontext';
 import { useTheme } from '../context/Themecontext';
 import { createHomeStyles } from '../screenDesigns/Homestyles';
+import { Ionicons } from '@expo/vector-icons';
 
 interface HomeScreenProps {
   navigation: {
@@ -66,9 +67,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <View style={styles.entryFooter}>
           <View style={styles.entryInfo}>
             <View style={styles.entryAddressRow}>
-              <Text style={styles.pinIcon}>📍</Text>
+              <Ionicons name="location-sharp" size={16} color={colors.primary} />
               <Text style={styles.entryAddress} numberOfLines={2}>
-                {item.address}
+                 {item.address}
               </Text>
             </View>
             <Text style={styles.entryDate}>{formatDate(item.timestamp)}</Text>
@@ -79,7 +80,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             accessibilityLabel={`Remove entry at ${item.address}`}
             accessibilityRole="button"
           >
-            <Text style={styles.removeButtonText}>✕ Remove</Text>
+            <Ionicons name="trash" size={14} color={colors.danger} />
+            <Text style={styles.removeButtonText}> Remove</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -90,12 +92,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const renderEmpty = () => (
     <View style={styles.emptyContainer}>
       <View style={styles.emptyIconCircle}>
-        <Text style={styles.emptyIcon}>🗺️</Text>
+        <Ionicons name ="map-sharp" size={48} color={colors.primary} />
       </View>
-      <Text style={styles.emptyTitle}>No Entries Yet</Text>
+      <Text style={styles.emptyTitle}>You Have No Entries Yet</Text>
       <Text style={styles.emptyText}>
-        Start capturing your travel memories!{'\n'}Tap the + button to add your
-        first entry.
+        Every trip tells a story
+      </Text>
+      <Text style={styles.subemptyText}>
+        Tap the + button to add your first entry.
       </Text>
     </View>
   );
@@ -110,8 +114,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.headerTitle}>✈ Travel Diary</Text>
-          <Text style={styles.headerSubtitle}>Your journey, captured.</Text>
+          <Text style={styles.headerTitle}>Travel catch</Text>
+          <Text style={styles.headerSubtitle}>Capture the moment</Text>
           {entries.length > 0 && (
             <View style={styles.countBadge}>
               <Text style={styles.countBadgeText}>
@@ -121,6 +125,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           )}
         </View>
         <View style={styles.headerRight}>
+
           {/* Dark/Light Mode Toggle */}
           <TouchableOpacity
             style={styles.themeToggle}
@@ -128,6 +133,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             accessibilityLabel={`Switch to ${isDark ? 'light' : 'dark'} mode`}
             accessibilityRole="switch"
           >
+            {/* Icon */}
+            <Ionicons
+              name={isDark ? 'sunny' : 'moon'}
+              size={16}
+              color={isDark ? colors.primary : colors.primary}
+              style={[ styles.themeIcon, { left: isDark ? 5 : undefined, right: isDark ? undefined : 5 }
+              ]}
+            />
+
+            {/* Thumb */}
             <View
               style={[
                 styles.themeToggleThumb,
@@ -135,7 +150,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               ]}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 14 }}>{isDark ? '🌙' : '☀️'}</Text>
+
           {/* Add Entry Button */}
           <TouchableOpacity
             style={styles.addButton}

@@ -46,7 +46,7 @@ export const createHomeStyles = (colors: ThemeColors) =>
       gap: 12,
     },
     themeToggle: {
-      width: 52,
+      width: 53,
       height: 28,
       borderRadius: 14,
       backgroundColor: colors.toggleTrack,
@@ -65,6 +65,10 @@ export const createHomeStyles = (colors: ThemeColors) =>
       shadowOpacity: 0.2,
       shadowRadius: 2,
       elevation: 2,
+    },
+    themeIcon: {
+      position: 'absolute',
+      left: 10,
     },
     themeToggleThumbDark: {
       transform: [{ translateX: 22 }],
@@ -151,9 +155,11 @@ export const createHomeStyles = (colors: ThemeColors) =>
       paddingVertical: 8,
       borderWidth: 1,
       borderColor: colors.danger,
+      flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
     },
+
     removeButtonText: {
       fontSize: 12,
       color: colors.danger,
@@ -190,6 +196,10 @@ export const createHomeStyles = (colors: ThemeColors) =>
       textAlign: 'center',
       lineHeight: 22,
       paddingHorizontal: 40,
+    },
+    subemptyText: {
+      fontSize: 13,
+      color: colors.textInstruct,
     },
     countBadge: {
       backgroundColor: colors.primaryLight,

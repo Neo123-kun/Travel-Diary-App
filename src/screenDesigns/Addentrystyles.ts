@@ -81,7 +81,7 @@ export const createAddEntryStyles = (colors: ThemeColors) =>
       letterSpacing: 1.2,
       textTransform: 'uppercase',
       marginBottom: 10,
-      marginTop: 20,
+      marginTop: 10,
     },
     photoArea: {
       width: '100%',

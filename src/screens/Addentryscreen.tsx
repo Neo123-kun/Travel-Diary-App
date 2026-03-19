@@ -17,6 +17,8 @@ import * as Notifications from 'expo-notifications';
 import { useDiary, TravelEntry } from '../context/Diarycontext';
 import { useTheme } from '../context/Themecontext';
 import { createAddEntryStyles } from '../screenDesigns/Addentrystyles';
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 // ──────────────────────────────────────────────────────────
 // Types
@@ -263,10 +265,9 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
           sound: true,
           data: { type: 'entry_saved' },
         },
-        trigger: null, // immediate
+        trigger: null,
       });
     } catch {
-      // Notification failure is non-blocking
     }
   };
 
@@ -433,7 +434,10 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
           keyboardShouldPersistTaps="handled"
         >
           {/* Photo Section */}
-          <Text style={styles.sectionLabel}>📷 Photo</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <Entypo name="camera" size={24} color={colors.primary}/>
+              <Text style={styles.sectionLabel}> Photo</Text>
+            </View>
           <View style={[styles.photoArea, draft.photoUri && styles.photoAreaFilled]}>
             {draft.photoUri ? (
               <Image
@@ -444,7 +448,7 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
               />
             ) : (
               <View style={styles.photoPlaceholder}>
-                <Text style={styles.photoPlaceholderIcon}>📸</Text>
+                <Entypo name="camera" size={55} color={colors.emptyIcon} />
                 <Text style={styles.photoPlaceholderText}>No photo taken yet</Text>
                 <Text style={styles.photoPlaceholderSub}>
                   Tap the button below to capture your moment
@@ -461,9 +465,12 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
             accessibilityLabel={draft.photoUri ? 'Retake photo' : 'Take photo'}
             accessibilityRole="button"
           >
-            <Text style={styles.cameraButtonIcon}>
-              {draft.photoUri ? '🔄' : '📷'}
-            </Text>
+            <Ionicons
+              name={draft.photoUri ? 'camera-reverse' : 'camera-outline'}
+              size={24}
+              color= {draft.photoUri ? colors.primary : colors.surface}
+              style={styles.cameraButtonIcon}
+            />
             <Text
               style={[
                 styles.cameraButtonText,
@@ -475,23 +482,46 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
           </TouchableOpacity>
 
           {/* Location Section */}
-          <Text style={[styles.sectionLabel, { marginTop: 24 }]}>
-            📍 Location
-          </Text>
+          <View style={{ flexDirection: 'row', marginTop: 20 }}>
+            <Ionicons name="location-sharp" size={24} color={colors.primary} />
+            <Text style={styles.sectionLabel}> Location</Text>
+          </View>
 
+          {/* Address Card */}
           <View style={styles.addressCard}>
             <View style={styles.addressCardRow}>
-              <Text style={styles.addressIcon}>
-                {isFetchingLocation ? '⏳' : draft.address ? '✅' : '📌'}
-              </Text>
+              {/* Icon replacing emoji */}
+              {isFetchingLocation ? (
+                <Ionicons
+                  name="time-outline"
+                  size={20}
+                  color={colors.primary}
+                  style={styles.addressIcon}
+                />
+              ) : draft.address ? (
+                <Ionicons
+                  name="checkmark-circle"
+                  size={20}
+                  color={colors.primary}
+                  style={styles.addressIcon}
+                />
+              ) : (
+                <Entypo
+                  name="location-pin"
+                  size={20}
+                  color={colors.primary}
+                  style={styles.addressIcon}
+                />
+              )}
+
+              {/* Address text */}
               <View style={styles.addressTextBlock}>
                 <Text style={styles.addressLabel}>Current Address</Text>
+
                 {isFetchingLocation ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                     <ActivityIndicator size="small" color={colors.primary} />
-                    <Text style={styles.addressLoading}>
-                      Fetching your location…
-                    </Text>
+                    <Text style={styles.addressLoading}>Fetching your location…</Text>
                   </View>
                 ) : draft.address ? (
                   <Text style={styles.addressText}>{draft.address}</Text>
@@ -503,23 +533,20 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
               </View>
             </View>
 
-            {draft.latitude !== null && draft.longitude !== null && (
-              <View style={styles.coordsRow}>
-                <View style={styles.coordItem}>
-                  <Text style={styles.coordLabel}>Latitude</Text>
-                  <Text style={styles.coordValue}>
-                    {draft.latitude.toFixed(6)}°
-                  </Text>
-                </View>
-                <View style={styles.coordItem}>
-                  <Text style={styles.coordLabel}>Longitude</Text>
-                  <Text style={styles.coordValue}>
-                    {draft.longitude.toFixed(6)}°
-                  </Text>
-                </View>
-              </View>
-            )}
-          </View>
+  {/* Coordinates */}
+  {draft.latitude !== null && draft.longitude !== null && (
+    <View style={styles.coordsRow}>
+      <View style={styles.coordItem}>
+        <Text style={styles.coordLabel}>Latitude</Text>
+        <Text style={styles.coordValue}>{draft.latitude.toFixed(6)}°</Text>
+      </View>
+      <View style={styles.coordItem}>
+        <Text style={styles.coordLabel}>Longitude</Text>
+        <Text style={styles.coordValue}>{draft.longitude.toFixed(6)}°</Text>
+      </View>
+    </View>
+  )}
+</View>
 
           {/* Location Error */}
           {locationError && (

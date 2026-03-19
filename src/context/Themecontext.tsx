@@ -21,27 +21,29 @@ export interface ThemeColors {
   toggleThumb: string;
   headerBg: string;
   emptyIcon: string;
+  textInstruct: string;
 }
 
 const lightColors: ThemeColors = {
   background: '#F5F0EB',
   surface: '#FFFFFF',
   surfaceElevated: '#FDF8F3',
-  primary: '#C17D3C',
-  primaryLight: '#F4E4CE',
-  text: '#2C1810',
-  textSecondary: '#6B4C35',
-  textMuted: '#A08060',
-  border: '#E8D5BE',
+  primary: '#3e9284',
+  primaryLight: '#cee9f4',
+  text: '#10282c',
+  textSecondary: '#35576b',
+  textMuted: '#6091a0',
+  textInstruct: '#8aa1b1',
+  border: '#bed4e8',
   danger: '#D64545',
   dangerLight: '#FDEAEA',
   success: '#4CAF50',
-  cardShadow: 'rgba(44, 24, 16, 0.12)',
+  cardShadow: 'rgba(16, 33, 44, 0.12)',
   overlay: 'rgba(44, 24, 16, 0.5)',
-  toggleTrack: '#E8D5BE',
-  toggleThumb: '#FFFFFF',
-  headerBg: '#FFFFFF',
-  emptyIcon: '#D4B896',
+  toggleTrack: '#bed0e8',
+  toggleThumb: '#ffffff',
+  headerBg: '#97efff',
+  emptyIcon: '#a1d5ff',
 };
 
 const darkColors: ThemeColors = {
@@ -52,7 +54,8 @@ const darkColors: ThemeColors = {
   primaryLight: '#3A2010',
   text: '#F5E6D3',
   textSecondary: '#C4956A',
-  textMuted: '#7A5C3A',
+  textMuted: '#a17848',
+  textInstruct: '#805f39',
   border: '#3A2A1A',
   danger: '#FF6B6B',
   dangerLight: '#3A1515',
