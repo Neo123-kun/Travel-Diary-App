@@ -20,10 +20,8 @@ import { createAddEntryStyles } from '../screenDesigns/Addentrystyles';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-// ──────────────────────────────────────────────────────────
-// Types
-// ──────────────────────────────────────────────────────────
 
+// Types
 interface AddEntryScreenProps {
   navigation: {
     goBack: () => void;
@@ -39,10 +37,7 @@ interface EntryDraft {
 
 type PermissionStatus = 'idle' | 'granted' | 'denied';
 
-// ──────────────────────────────────────────────────────────
 // Notification Setup
-// ──────────────────────────────────────────────────────────
-
 Notifications.setNotificationHandler({
   handleNotification: async () => {
     return {
@@ -53,10 +48,7 @@ Notifications.setNotificationHandler({
   },
 });
 
-// ──────────────────────────────────────────────────────────
 // Component
-// ──────────────────────────────────────────────────────────
-
 const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
   const { addEntry } = useDiary();
   const { colors, isDark, toggleTheme } = useTheme();
@@ -141,7 +133,7 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
     }
   };
 
-  // ─── Reverse Geocoding ─────────────────────────────────
+  // Reverse Geocoding
   const fetchAddress = useCallback(
     async (lat: number, lon: number): Promise<string> => {
       try {
@@ -169,7 +161,7 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
     []
   );
 
-  // ─── Get Current Location ──────────────────────────────
+  // Get Current Location
   const getCurrentLocation = useCallback(async () => {
     if (locationPermission !== 'granted') {
       setLocationError('Location permission is required to record your spot.');
@@ -198,7 +190,7 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
     }
   }, [locationPermission, fetchAddress]);
 
-  // ─── Take Photo ────────────────────────────────────────
+  // Take Photo
   const handleTakePhoto = async () => {
     if (cameraPermission !== 'granted') {
       Alert.alert(
@@ -253,14 +245,14 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
     }
   };
 
-  // ─── Send Notification ─────────────────────────────────
+  // Send Notification
   const sendSaveNotification = async (address: string) => {
     if (notifPermission !== 'granted') return;
 
     try {
       await Notifications.scheduleNotificationAsync({
         content: {
-          title: '📸 Travel Memory Saved!',
+          title: 'જ⁀➴⋆.˚ Travel Memory Saved જ⁀➴⋆.˚',
           body: `Your memory at "${address}" has been added to your diary.`,
           sound: true,
           data: { type: 'entry_saved' },
@@ -271,7 +263,7 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
     }
   };
 
-  // ─── Validate Draft ────────────────────────────────────
+  // Validate Draft
   const isDraftValid = (): boolean => {
     return (
       draft.photoUri !== null &&
@@ -282,7 +274,7 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
     );
   };
 
-  // ─── Save Entry ────────────────────────────────────────
+  // Save Entry
   const handleSave = async () => {
     setSaveError(null);
 
@@ -319,13 +311,13 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
       await sendSaveNotification(draft.address);
 
       Alert.alert(
-        '🎉 Entry Saved!',
+        '✔ Entry Saved!',
         `Your memory at "${draft.address}" has been added to your diary.`,
         [
           {
             text: 'Great!',
             onPress: () => {
-              // Reset form and go back
+              // Reset form
               setDraft({ photoUri: null, address: null, latitude: null, longitude: null });
               setSaveError(null);
               setLocationError(null);
@@ -343,14 +335,14 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
     }
   };
 
-  // ─── Handle Back ───────────────────────────────────────
+  // Handle Back
   const handleBack = () => {
     if (draft.photoUri) {
       Alert.alert(
         'Discard Entry?',
         'You have an unsaved entry. Going back will discard it.',
         [
-          { text: 'Keep Editing', style: 'cancel' },
+          { text: 'Stay', style: 'cancel' },
           {
             text: 'Discard',
             style: 'destructive',
@@ -368,10 +360,9 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
     }
   };
 
-  // ─── Render Permission Denied Card ────────────────────
+  // If permission denied
   const renderPermissionDenied = () => (
     <View style={styles.permissionCard}>
-      <Text style={styles.permissionIcon}>🔒</Text>
       <Text style={styles.permissionTitle}>Permissions Needed</Text>
       <Text style={styles.permissionText}>
         TravelDiary requires camera and location permissions to capture and
@@ -389,7 +380,7 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
   const hasCriticalPermissionsDenied =
     cameraPermission === 'denied' || locationPermission === 'denied';
 
-  // ─── Render ────────────────────────────────────────────
+  // Render
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar
@@ -421,7 +412,13 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
               ]}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 13 }}>{isDark ? '🌙' : '☀️'}</Text>
+
+          <Ionicons
+            name={isDark ? 'moon' : 'sunny'}
+            size={16}
+            color={isDark ? colors.primary : colors.primary}
+            style={{ marginLeft: 6 }}
+          />
         </View>
       </View>
 
@@ -433,7 +430,7 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Photo Section */}
+          {/* Photo */}
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
               <Entypo name="camera" size={24} color={colors.primary}/>
               <Text style={styles.sectionLabel}> Photo</Text>
@@ -533,25 +530,24 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
               </View>
             </View>
 
-  {/* Coordinates */}
-  {draft.latitude !== null && draft.longitude !== null && (
-    <View style={styles.coordsRow}>
-      <View style={styles.coordItem}>
-        <Text style={styles.coordLabel}>Latitude</Text>
-        <Text style={styles.coordValue}>{draft.latitude.toFixed(6)}°</Text>
-      </View>
-      <View style={styles.coordItem}>
-        <Text style={styles.coordLabel}>Longitude</Text>
-        <Text style={styles.coordValue}>{draft.longitude.toFixed(6)}°</Text>
-      </View>
-    </View>
-  )}
-</View>
+          {/* Coordinates */}
+          {draft.latitude !== null && draft.longitude !== null && (
+            <View style={styles.coordsRow}>
+              <View style={styles.coordItem}>
+                <Text style={styles.coordLabel}>Latitude</Text>
+                <Text style={styles.coordValue}>{draft.latitude.toFixed(6)}°</Text>
+              </View>
+              <View style={styles.coordItem}>
+                <Text style={styles.coordLabel}>Longitude</Text>
+                <Text style={styles.coordValue}>{draft.longitude.toFixed(6)}°</Text>
+              </View>
+            </View>
+          )}
+        </View>
 
           {/* Location Error */}
           {locationError && (
             <View style={[styles.errorContainer, { marginTop: 10 }]}>
-              <Text style={styles.errorIcon}>⚠️</Text>
               <Text style={styles.errorText}>{locationError}</Text>
             </View>
           )}
@@ -559,7 +555,6 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
           {/* Save Error */}
           {saveError && (
             <View style={[styles.errorContainer, { marginTop: 10 }]}>
-              <Text style={styles.errorIcon}>❌</Text>
               <Text style={styles.errorText}>{saveError}</Text>
             </View>
           )}
@@ -567,7 +562,6 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
           {/* Notification Permission Warning */}
           {notifPermission === 'denied' && (
             <View style={[styles.errorContainer, { marginTop: 10, borderColor: colors.textMuted }]}>
-              <Text style={styles.errorIcon}>🔔</Text>
               <Text style={[styles.errorText, { color: colors.textMuted }]}>
                 Notifications are disabled. You won't receive a confirmation
                 after saving. Enable them in device settings for the full
@@ -593,7 +587,10 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
                 <ActivityIndicator color="#FFFFFF" />
               ) : (
                 <>
-                  <Text style={styles.saveButtonText}>💾  Save Entry</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Ionicons name="save" size={20} color="#FFFFFF" />
+                    <Text style={styles.saveButtonText}>Save Entry</Text>
+                  </View>
                   <Text style={styles.saveButtonSub}>
                     {isDraftValid()
                       ? 'Entry will be saved to your diary'

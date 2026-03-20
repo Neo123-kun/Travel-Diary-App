@@ -114,7 +114,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.headerTitle}>Travel catch</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <Ionicons name="library-sharp" size={20} color={colors.text} />
+              <Text style={styles.headerTitle}>Travel catch</Text>
+            </View>
           <Text style={styles.headerSubtitle}>Capture the moment</Text>
           {entries.length > 0 && (
             <View style={styles.countBadge}>
