@@ -365,7 +365,7 @@ const AddEntryScreen: React.FC<AddEntryScreenProps> = ({ navigation }) => {
     <View style={styles.permissionCard}>
       <Text style={styles.permissionTitle}>Permissions Needed</Text>
       <Text style={styles.permissionText}>
-        TravelDiary requires camera and location permissions to capture and
+        Travel catch requires camera and location permissions to capture and
         record your travel memories. Please grant these permissions to continue.
       </Text>
       <TouchableOpacity
